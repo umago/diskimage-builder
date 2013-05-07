@@ -106,8 +106,10 @@ function mount_proc_dev_sys () {
 
 # Helper function to run a command inside the chroot
 function run_in_target() {
+   # Force the inclusion of /usr/local/bin in PATH (Needed on Fedora)
+   cmd="PATH=\${PATH}:/usr/local/bin ; $@"
    # -E to preserve http_proxy
-   sudo -E chroot $TMP_MOUNT_PATH "$@"
+   sudo -E chroot $TMP_MOUNT_PATH sh -c "$cmd"
 }
 
 # Helper function to run a directory of scripts inside the chroot
